@@ -12,14 +12,14 @@ import com.angularwithspringboot.model.Todos;
 public class TodoHardcodedService {
 	
 	private static List<Todos> todos = new ArrayList<>();
-	private static int idCounter = 0;
+	private static long idCounter = 0;
 	
-	static {
-		todos.add(new Todos(++idCounter, "in28minutes","Learn to Dance 2", new Date(), false ));
-		todos.add(new Todos(++idCounter, "in28minutes","Learn about Microservices 2", new Date(), false ));
-		todos.add(new Todos(++idCounter, "in28minutes","Learn about Angular", new Date(), false ));
-	}
-	
+//	static {
+//		todos.add(new Todos(++idCounter, "in28minutes","Learn to Dance 2", new Date(), false ));
+//		todos.add(new Todos(++idCounter, "in28minutes","Learn about Microservices 2", new Date(), false ));
+//		todos.add(new Todos(++idCounter, "in28minutes","Learn about Angular", new Date(), false ));
+//	}
+//	
 	public List<Todos> findAll() {
 		return todos;
 	}
@@ -38,7 +38,8 @@ public class TodoHardcodedService {
 	public Todos deleteById(long id) {
 		Todos todo = findById(id);
 		
-		if(todo==null) return null;
+		if(todo==null) 
+			return null;
 		
 		if(todos.remove(todo)) {
 			return todo;

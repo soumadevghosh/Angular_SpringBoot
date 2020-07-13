@@ -18,62 +18,93 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.angularwithspringboot.model.Todos;
 import com.angularwithspringboot.service.TodoHardcodedService;
+import com.angularwithspringboot.service.TodoService;
 
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/users")
 public class TodoResource {
 	
+//	@Autowired
+//	private TodoHardcodedService todoService;
+	
 	@Autowired
-	private TodoHardcodedService todoService;
+	private TodoService service;
 	
 	@GetMapping("/todos")
-	public List<Todos> getAllTodos(){
-		return todoService.findAll();
+	public List<Todos> getTodos(){
+		return service.getTodos();
 	}
-
+//	@GetMapping("/todos")
+//	public List<Todos> getAllTodos(){
+//		return todoService.findAll();
+//	}
+	
 	@GetMapping("/todos/{id}")
-	public Todos getTodo(@PathVariable long id){
-		return todoService.findById(id);
+	public Todos getTodosById(@PathVariable("id") Long id) {
+		return service.getTodoById(id);
 	}
+//	@GetMapping("/todos/{id}")
+//	public Todos getTodo(@PathVariable long id){
+//		return todoService.findById(id);
+//	}
 
-	//DELETE /users/{username}/todos/{id}
 	@DeleteMapping("/todos/{id}")
-	public ResponseEntity<Void> deleteTodo(@PathVariable long id){
-		
-		Todos todo = todoService.deleteById(id);
-		
-		if(todo!=null) {
-			return ResponseEntity.noContent().build();
-		}
-		
-		return ResponseEntity.notFound().build();
+	public ResponseEntity<Void> deleteTodo(@PathVariable("id") Long id){
+		service.deleteTodo(id);
+		return ResponseEntity.noContent().build();
 	}
+//	@DeleteMapping("/todos/{id}")
+//	public ResponseEntity<Void> deleteTodo(@PathVariable long id){
+//		
+//		Todos todo = todoService.deleteById(id);
+//		
+//		if(todo!=null) {
+//			return ResponseEntity.noContent().build();
+//		}
+//		
+//		return ResponseEntity.notFound().build();
+//	}
 	
+	@PutMapping("/todos")
+	public ResponseEntity<Todos> updateTodo(@RequestBody Todos todo){
+		todo.setUsername("Souma");
+		Todos updated = service.updateTodo(todo);
+		return new ResponseEntity<Todos>(updated, HttpStatus.OK);
+	}
+//	//Edit/Update a Todo
+//	@PutMapping("/todos/{id}")
+//	public ResponseEntity<Todos> updateTodo(
+//			@PathVariable long id, @RequestBody Todos todo){
+//		
+//		Todos todoUpdated = todoService.save(todo);
+//		
+//		return new ResponseEntity<Todos>(todo, HttpStatus.OK);
+//	}
 
-	//Edit/Update a Todo
-	//PUT /users/{user_name}/todos/{todo_id}
-	@PutMapping("/todos/{id}")
-	public ResponseEntity<Todos> updateTodo(
-			@PathVariable long id, @RequestBody Todos todo){
-		
-		Todos todoUpdated = todoService.save(todo);
-		
-		return new ResponseEntity<Todos>(todo, HttpStatus.OK);
-	}
-	
 	@PostMapping("/todos")
-	public ResponseEntity<Void> updateTodo(@RequestBody Todos todo){
-		
-		Todos createdTodo = todoService.save(todo);
-		
+	public ResponseEntity<Void> addTodo(@RequestBody Todos todo){
+		todo.setUsername("Souma");
+		Todos created = service.addTodo(todo);
 		//Location
 		//Get current resource url
 		///{id}
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
+				.path("/{id}").buildAndExpand(created.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();
 	}
-		
+//	@PostMapping("/todos")
+//	public ResponseEntity<Void> addTodo(@RequestBody Todos todo){
+//		
+//		Todos createdTodo = todoService.save(todo);
+//		
+//		//Location
+//		//Get current resource url
+//		///{id}
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+//				.path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
+//		
+//		return ResponseEntity.created(uri).build();
+//	}
 }

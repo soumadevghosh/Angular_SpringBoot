@@ -1,4 +1,4 @@
-package com.angularwithspringboot.authentication;
+package com.authentication;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
