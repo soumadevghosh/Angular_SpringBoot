@@ -2,6 +2,8 @@ package com.angularwithspringboot.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ import com.angularwithspringboot.service.TodoService;
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/users")
-public class TodoResource {
+public class TodoController {
 	
 //	@Autowired
 //	private TodoHardcodedService todoService;
@@ -67,7 +69,7 @@ public class TodoResource {
 //	}
 	
 	@PutMapping("/todos")
-	public ResponseEntity<Todos> updateTodo(@RequestBody Todos todo){
+	public ResponseEntity<Todos> updateTodo(@Valid @RequestBody Todos todo){  //@RequestBody is to deserialise object received
 		todo.setUsername("Souma");
 		Todos updated = service.updateTodo(todo);
 		return new ResponseEntity<Todos>(updated, HttpStatus.OK);
@@ -83,7 +85,7 @@ public class TodoResource {
 //	}
 
 	@PostMapping("/todos")
-	public ResponseEntity<Void> addTodo(@RequestBody Todos todo){
+	public ResponseEntity<Void> addTodo(@Valid @RequestBody Todos todo){ 	//@Valid is for checking server side validation
 		todo.setUsername("Souma");
 		Todos created = service.addTodo(todo);
 		//Location

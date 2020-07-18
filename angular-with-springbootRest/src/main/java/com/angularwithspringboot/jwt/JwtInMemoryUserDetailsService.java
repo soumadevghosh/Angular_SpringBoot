@@ -12,12 +12,16 @@ import org.springframework.stereotype.Service;
 
 import com.angularwithspringboot.model.User;
 import com.angularwithspringboot.repository.UserRepository;
+import com.angularwithspringboot.service.UserService;
 
 @Service
 public class JwtInMemoryUserDetailsService implements UserDetailsService {
 
+//	@Autowired
+//	private UserRepository repository;
+	
 	@Autowired
-	private UserRepository repository;
+	private UserService userService;
 //	
 //  static List<JwtUserDetails> inMemoryUserList = new ArrayList<>();
 //
@@ -27,28 +31,28 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
 //    inMemoryUserList.add(new JwtUserDetails(2L, "souma", "$2a$10$SkrzE7GTnFo3Nx/38OuDm.iLhWC.MPvCWC0/mxZLKims6BmpOghiS", "ROLE_USER_2"));
 //  }
 
-  @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//    Optional<JwtUserDetails> findFirst = inMemoryUserList.stream()
-//        .filter(user -> user.getUsername().equals(username)).findFirst();
-//    if (!findFirst.isPresent()) {
-//      throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
-//    }
-//    return findFirst.get();
-	  User user = repository.findByName(username);
-	  if(user == null) {
-		  throw new UsernameNotFoundException(String.format("User_not_found '%s'.",username));
-	  }else {
-		  return create(user);
+	  @Override
+	  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	//    Optional<JwtUserDetails> findFirst = inMemoryUserList.stream()
+	//        .filter(user -> user.getUsername().equals(username)).findFirst();
+	//    if (!findFirst.isPresent()) {
+	//      throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
+	//    }
+	//    return findFirst.get();
+		  User user = userService.findByUserName(username);
+		  if(user == null) {
+			  throw new UsernameNotFoundException(String.format("User_not_found '%s'.",username));
+		  }else {
+			  return create(user);
+		  }
 	  }
-  }
 
-private static JwtUserDetails create(User user) {
-	// TODO Auto-generated method stub
-	List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
-	roles.add(new SimpleGrantedAuthority(user.getRole()));
-	return new JwtUserDetails(user.getId(),user.getName(),user.getPassword(),roles);
-}
+	private static JwtUserDetails create(User user) {
+		// TODO Auto-generated method stub
+		List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
+		roles.add(new SimpleGrantedAuthority(user.getRole()));
+		return new JwtUserDetails(user.getId(),user.getName(),user.getPassword(),roles);
+	}
 
 }
 
