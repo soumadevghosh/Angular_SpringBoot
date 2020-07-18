@@ -11,7 +11,7 @@ import com.angularwithspringboot.model.AuthenticationBean;
 public class BasicAuthenticationController {
 	@GetMapping(path = "/basicauth")
 	public AuthenticationBean helloWorldBean() {
-		//throw new RuntimeException("Some Error has Happened! Contact Support at ***-***");
+		//throw new RuntimeException("Some Error has Happened);
 		return new AuthenticationBean("You are authenticated");
 	}
 }
