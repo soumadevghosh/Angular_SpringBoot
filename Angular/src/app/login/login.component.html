@@ -1,0 +1,36 @@
+<div class="container mt-5">
+    <div class="text-center txt-dark mb-10">
+        <h4>Login</h4>
+    </div>
+    <br>
+    <div class="row form-group">
+        <div class="col-md-4 offset-sm-4">
+            <div>
+                <label>Username: </label>
+                <input class="form-control" type="text" name="username" [(ngModel)]="username">
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-4 offset-sm-4">
+            <div>
+                <label>Password: </label>
+                <input class="form-control" type="password" name="password" [(ngModel)]="password">
+            </div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-4 offset-sm-4">
+            <div class="form-group">
+                <!-- <button class="btn btn-success" (click)=handleLogin()>Login</button> -->
+                <!-- <button class="btn btn-success" (click)=handleBasicAuthLogin()>Login</button> -->
+                <button class="btn btn-success" (click)="handleJWTAuthLogin()">Login</button>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-4 offset-sm-4">
+            <div class="alert alert-warning" *ngIf="message">{{message}}</div>
+        </div>
+    </div>
+</div>
