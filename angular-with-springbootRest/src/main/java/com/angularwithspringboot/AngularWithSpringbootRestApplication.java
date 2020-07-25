@@ -8,5 +8,6 @@ public class AngularWithSpringbootRestApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AngularWithSpringbootRestApplication.class, args);
+		
 	}
 }
